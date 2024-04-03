@@ -198,3 +198,61 @@ async function fetchPokemonList() {
     return [];
   }
 }
+async function option1DropdownClickHandler(event) {
+  const select = document.getElementById("dropdown");
+  const url = select.options[select.selectedIndex].value;
+  const data = await fetchPokemonDetails(url);
+  if (data) {
+    renderOption1Results(data);
+  }
+}
+
+const option1SubmitButton = document.getElementById("submit-button");
+option1SubmitButton.addEventListener("click", option1DropdownClickHandler);
+
+async function renderOption1Dropdown() {
+  const select = document.getElementById("dropdown");
+  const list = await fetch150PokemonList();
+  if (list) {
+    list.forEach((item) => {
+      const option = document.createElement("option");
+      option.textContent = item.name;
+      option.value = item.url;
+      select.appendChild(option);
+    });
+  }
+}
+
+renderOption1Dropdown();
+
+async function renderOption2Enhanced() {
+  const data = await fetch150PokemonDetails();
+  const cards = createCardElements(
+    data.map((item) => ({
+      title: item.name,
+      image: item.sprites.other["official-artwork"].front_default,
+      subtitle: item.types.map((type) => type.type.name).join(", "),
+    }))
+  );
+  document.getElementById("option-2-enhanced-results").innerHTML = cards;
+}
+
+renderOption2Enhanced();
+
+function searchbarEventHandler() {
+  let input = document.getElementById("searchbar").value;
+  input = input.toLowerCase();
+  const enhancedResults = document.getElementById("option-2-enhanced-results");
+  const card = enhancedResults.getElementsByClassName("card");
+
+  for (i = 0; i < card.length; i++) {
+    if (!card[i].innerHTML.toLowerCase().includes(input)) {
+      card[i].style.display = "none";
+    } else {
+      card[i].style.display = "block";
+    }
+  }
+}
+
+const searchbar = document.getElementById("searchbar");
+searchbar.addEventListener("keyup", searchbarEventHandler);

@@ -71,4 +71,10 @@
     background-color: #f0f0f0;
     border-radius: 5px;
   }
-  
+  #searchbar {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
